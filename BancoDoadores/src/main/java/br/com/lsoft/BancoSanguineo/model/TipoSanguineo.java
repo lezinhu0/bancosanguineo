@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OrderColumn;
 
 @Entity
 public class TipoSanguineo {
@@ -13,12 +13,10 @@ public class TipoSanguineo {
 	@Id
 	private String codigo;
 	private String descricao;
-	@ElementCollection
-	@OrderColumn
-	private List<String> doaPara;
-	@ElementCollection
-	@OrderColumn
-	private List<String> recebeDe;
+	@ElementCollection(fetch = FetchType.LAZY)
+	private List<TipoSanguineo> doaPara;
+	@ElementCollection(fetch = FetchType.LAZY)
+	private List<TipoSanguineo> recebeDe;
 
 	public String getCodigo() {
 		return codigo;
