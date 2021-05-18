@@ -1,0 +1,18 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head(Candidatos, candidatos)">
+<meta charset="UTF-8">
+</head>
+<body>
+	<nav th:replace="templateFile :: navbar"></nav>
+	<div class="container">
+		<h1>Candidatos</h1>
+		<button id="filechoser-btn" type="submit">Carregar Arquivo</button>
+		
+	</div>
+	<div class="container-fluid">
+		<div class="table-responsive">
+			<table id="tabelaCandidatos" class="table table-sm table-striped"></table>
+		</div>
+	</div>
+</body>
+</html>

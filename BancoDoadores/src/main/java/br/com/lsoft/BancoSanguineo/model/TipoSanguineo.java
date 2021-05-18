@@ -15,8 +15,6 @@ public class TipoSanguineo {
 	private String descricao;
 	@ManyToMany
 	private List<TipoSanguineo> doaPara;
-	@ManyToMany
-	private List<TipoSanguineo> recebeDe;
 	
 	public TipoSanguineo() {
 	}

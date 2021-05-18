@@ -1,0 +1,30 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head('Relatórios Gerais', relatoriosGerais)">
+<meta charset="UTF-8">
+</head>
+<body>
+	<nav th:replace="templateFile :: navbar"></nav>
+	<div class="container">
+		<h1 class="text-center mb-5 mt-4">Relatórios Gerais</h1>
+		
+	</div>
+	<div class="jumbotron">
+		<h1>Doadores por Estado</h1>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6">
+				<canvas id="graficoDoadoresPorEstado" class="drilldown" height="150rem"></canvas>
+			</div>
+			<div class="col-lg-6">
+				<div th:replace="mapaBrasil :: mapa-brasil"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="label-mapa" class="label-mapa">
+		<h4 class="titulo">SP</h4>
+		<h5 class="texto">53</h5>
+	</div>
+</body>
+</html>

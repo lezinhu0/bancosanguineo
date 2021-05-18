@@ -1,0 +1,23 @@
+.d-none {
+	display: none!important;
+}
+
+div#label-mapa {
+    position: fixed;
+    top: 18rem;
+    left: 30rem;
+    background-color: white;
+    width: 7rem;
+    height: 6rem;
+    box-shadow: 3px 3px 10px 0px black;
+    z-index: 1;
+    border-radius: 0.7rem;
+}
+
+#label-mapa .titulo {
+    text-align: center;
+}
+
+#label-mapa .texto {
+    text-align: center;
+}
