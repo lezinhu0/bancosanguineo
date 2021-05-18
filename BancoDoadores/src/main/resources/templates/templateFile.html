@@ -1,0 +1,18 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:fragment="head(title, resources)">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<title th:text="${title}"></title>
+<link rel="stylesheet" th:href="@{/css/templateFile.css}">
+<script th:src="@{/js/templateFile.js}"></script>
+<!-- Tokens dos Forms -->
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<script>
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+	});
+</script>
+</head>
+<body>
+</body>
+</html>

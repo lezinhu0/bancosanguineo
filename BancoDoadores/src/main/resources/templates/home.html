@@ -1,7 +1,51 @@
-<html>
-<head>
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head(home, home)">
+<meta charset="UTF-8">
 </head>
 <body>
 	<h1>Home</h1>
+	<button id="filechoser-btn" type="submit">Carregar Arquivo</button>
+	
+	
+	<script>
+		$('#filechoser-btn').click(function() {
+		    // Create an input element
+		    var inputElement = document.createElement("input");
+		
+		    // Set its type to file
+		    inputElement.type = "file";
+		
+		    // Set accept to the file types you want the user to select. 
+		    // Include both the file extension and the mime type
+		    inputElement.accept = '.json';
+		
+		    // set onchange event to call callback when user has selected file
+		    inputElement.addEventListener("change", function(e) {
+		    	var file = e.target.files[0];
+		    	
+		    	var reader = new FileReader();
+		    	reader.addEventListener('load', function(event) {
+		    		var candidatos = JSON.parse(event.target.result);
+		    		$.ajax({
+		    			url: '/candidatos/salvar',
+		    			type: 'POST',
+						dataType: 'text',
+					    headers: {
+					        'Accept': 'application/json',
+					        'Content-Type': 'application/json'
+					    },
+		    			data: JSON.stringify(candidatos),
+		    			success: function(response) {
+		    				window.location.href = '/report';
+		    			},
+		    		});
+		    	});
+		    	reader.readAsText(file);
+		    });
+		    
+		    // dispatch a click event to open the file dialog
+		    inputElement.dispatchEvent(new MouseEvent("click")); 
+		});
+	</script>
 </body>
 </html>

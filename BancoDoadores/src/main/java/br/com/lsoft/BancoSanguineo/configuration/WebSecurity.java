@@ -11,18 +11,18 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers("/css/*", "/js/*").permitAll()
-		.antMatchers("/").permitAll()
+//		.antMatchers("/css/*", "/js/*").permitAll()
+//		.antMatchers("/").permitAll()
 		.anyRequest().hasAuthority("admin")
 		.and()
 			.formLogin().permitAll()
 		.and()
-			.logout().logoutSuccessUrl("/").permitAll();
+			.logout().permitAll();
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").authorities("ADMIN");
+		auth.inMemoryAuthentication().withUser("admin").password("{noop}admin").authorities("admin");
 	}
 
 }

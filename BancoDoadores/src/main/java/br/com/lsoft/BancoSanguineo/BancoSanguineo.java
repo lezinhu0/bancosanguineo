@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import br.com.lsoft.BancoSanguineo.model.TipoSanguineo;
 import br.com.lsoft.BancoSanguineo.repository.TipoSanguineoRepository;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class })
 public class BancoSanguineo {
 	
 	public static void main(String[] args) {
@@ -62,6 +62,71 @@ public class BancoSanguineo {
 
 			
 			LinkedList<TipoSanguineo> doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("A+").orElse(null);
+			doaPara.add(new TipoSanguineo("AB+"));
+			doaPara.add(new TipoSanguineo("A+"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("A-").orElse(null);
+			doaPara.add(new TipoSanguineo("A+"));
+			doaPara.add(new TipoSanguineo("A-"));
+			doaPara.add(new TipoSanguineo("AB+"));
+			doaPara.add(new TipoSanguineo("AB-"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("B+").orElse(null);
+			doaPara.add(new TipoSanguineo("B+"));
+			doaPara.add(new TipoSanguineo("AB+"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("B-").orElse(null);
+			doaPara.add(new TipoSanguineo("B+"));
+			doaPara.add(new TipoSanguineo("B-"));
+			doaPara.add(new TipoSanguineo("AB+"));
+			doaPara.add(new TipoSanguineo("AB-"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("AB+").orElse(null);
+			doaPara.add(new TipoSanguineo("AB+"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("AB-").orElse(null);
+			doaPara.add(new TipoSanguineo("AB+"));
+			doaPara.add(new TipoSanguineo("AB-"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("O+").orElse(null);
+			doaPara.add(new TipoSanguineo("A+"));
+			doaPara.add(new TipoSanguineo("B+"));
+			doaPara.add(new TipoSanguineo("O+"));
+			doaPara.add(new TipoSanguineo("AB+"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
+			
+			doaPara = new LinkedList<>();
+			tipoSanguineo = tipoSanguneoRepository.findById("O-").orElse(null);
+			doaPara.add(new TipoSanguineo("A+"));
+			doaPara.add(new TipoSanguineo("B+"));
+			doaPara.add(new TipoSanguineo("O+"));
+			doaPara.add(new TipoSanguineo("AB+"));
+			doaPara.add(new TipoSanguineo("A-"));
+			doaPara.add(new TipoSanguineo("B-"));
+			doaPara.add(new TipoSanguineo("O-"));
+			doaPara.add(new TipoSanguineo("AB-"));
+			tipoSanguineo.setDoaPara(doaPara);
+			tipoSanguneoRepository.save(tipoSanguineo);
 		};
 	}
 }

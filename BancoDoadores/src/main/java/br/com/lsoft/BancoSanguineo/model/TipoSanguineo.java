@@ -1,11 +1,11 @@
 package br.com.lsoft.BancoSanguineo.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class TipoSanguineo {
@@ -13,10 +13,17 @@ public class TipoSanguineo {
 	@Id
 	private String codigo;
 	private String descricao;
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ManyToMany
 	private List<TipoSanguineo> doaPara;
-	@ElementCollection(fetch = FetchType.LAZY)
+	@ManyToMany
 	private List<TipoSanguineo> recebeDe;
+	
+	public TipoSanguineo() {
+	}
+
+	public TipoSanguineo(String codigo) {
+		this.codigo = codigo;
+	}
 
 	public String getCodigo() {
 		return codigo;
@@ -32,6 +39,15 @@ public class TipoSanguineo {
 
 	public String getDescricao() {
 		return descricao;
+	}
+
+	public void setDoaPara(LinkedList<TipoSanguineo> doaPara) {
+		this.doaPara = doaPara;
+	}
+
+	@Override
+	public String toString() {
+		return "TipoSanguineo [codigo=" + codigo + ", descricao=" + descricao + "]";
 	}
 
 }
