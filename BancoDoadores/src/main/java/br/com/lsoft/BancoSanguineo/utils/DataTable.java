@@ -1,5 +1,6 @@
 package br.com.lsoft.BancoSanguineo.utils;
 
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -38,6 +39,35 @@ public class DataTable {
 
 	public LinkedList<Object> getHeaders() {
 		return headers;
+	}
+
+	public static <T> DataTable fromIterable(Iterable<T> iterable) {
+		
+		LinkedList<Object> headers = new LinkedList<>();
+		T tempObj = iterable.iterator().next();
+		for (Method method : tempObj.getClass().getMethods()) {
+			String methodName = method.getName();
+			if (methodName.startsWith("get") && !methodName.equals("getClass"))
+				headers.add(methodName.substring(3));
+		}
+		
+		LinkedList<LinkedList<Object>> data = new LinkedList<>();
+		for (Object obj : iterable) {
+			LinkedList<Object> linha = new LinkedList<>();
+			for (Object header : headers) {
+				try {
+					Object methodReturn = obj.getClass().getMethod("get" + header.toString(), null).invoke(obj);
+					if (methodReturn != null)
+						linha.add(methodReturn.toString());
+					else
+						linha.add("null");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			data.add(linha);
+		}
+		return new DataTable(data, headers);
 	}
 
 }

@@ -8,6 +8,7 @@ public class BarDataset {
 	private String label;
 	private String backgroundColor = "rgb(47 203 214)";
 	private String borderColor = "rgb(47 203 214)";
+	private String hoverBackgroundColor = "rgb(17 173 184)";
 	private List<Double> data = new LinkedList<>();
 	private Long borderwidth = 2l;
 
@@ -49,6 +50,14 @@ public class BarDataset {
 
 	public void setBorderwidth(Long borderwidth) {
 		this.borderwidth = borderwidth;
+	}
+
+	public String getHoverBackgroundColor() {
+		return hoverBackgroundColor;
+	}
+
+	public void setHoverBackgroundColor(String hoverBackgroundColor) {
+		this.hoverBackgroundColor = hoverBackgroundColor;
 	}
 
 }

@@ -8,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import br.com.lsoft.BancoSanguineo.model.TipoSanguineo;
+import br.com.lsoft.BancoSanguineo.model.Usuario;
 import br.com.lsoft.BancoSanguineo.repository.TipoSanguineoRepository;
+import br.com.lsoft.BancoSanguineo.repository.UsuarioRepository;
 
 @SpringBootApplication(exclude = { org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration.class })
 public class BancoSanguineo {
@@ -18,7 +20,7 @@ public class BancoSanguineo {
 	}
 	
 	@Bean
-	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguneoRepository) {
+	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguneoRepository, UsuarioRepository usuarioRepository) {
 		return args -> {
 			TipoSanguineo tipoSanguineo = new TipoSanguineo();
 			tipoSanguineo.setCodigo("A+");

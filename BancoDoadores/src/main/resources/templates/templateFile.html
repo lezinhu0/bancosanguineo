@@ -1,4 +1,4 @@
-<html xmlns:th="www.thymeleaf.org">
+<html xmlns:th="www.thymeleaf.org" xmlns:sec>
 <head th:fragment="head(title, resources)">
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css"/>
@@ -61,7 +61,17 @@
 						<a class="dropdown-item" th:href="@{/relatorios-gerais}">Gerais</a>
 					</div>
 				</li>
+				<li sec:authorize="hasAuthority('admin')" class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> Admin </a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/usuarios}">Usuários</a>
+					</div>
+				</li>
 			</ul>
+			<form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
+			<a sec:authorize="!isAuthenticated()" href="/login" class="btn btn-primary">Login</a>
 		</div>
 	</nav>
 </body>

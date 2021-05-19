@@ -14,12 +14,23 @@ $(document).ready(function() {
 	var candidatosPorEstado = new Map();
 	$.get('/candidatos/por-estado', function(response) {
 		var maximo = 0;
+		var minimo;
 		$(response).each(function() {
 			candidatosPorEstado.set(this[0], this[1]);
 			if (this[1] > maximo) {
 				maximo = this[1];
 			}
+			if (minimo == null) {
+				minimo = this[1];
+			} else {
+				if (this[1] < minimo) {
+					minimo = this[1];
+				}
+			}
 		});
+
+		$('#escala-mapa .labels .min').html(minimo);
+		$('#escala-mapa .labels .max').html(maximo);
 		$(response).each(function() {
 			$('#svg-map #' + this[0] + ' path').css('fill', 'rgba(0, 0, ' + 255 * (this[1] / maximo) + ', 1)');
 		});
@@ -76,11 +87,17 @@ $(document).ready(function() {
 	$.get('/candidatos/indice-obesidade?sexo=Masculino', function (data) {
 		var ctx = document.getElementById('graficoIndiceObesidadeHomens').getContext('2d');
 		var chart = new Chart(ctx, data);
+		var indice = data.data.datasets[0].data[0] / data.data.datasets[0].data[1];
+		indice = Math.round(indice * 1000) / 10 + '%';
+		$('#indice-homens-obesos').html(indice);
 	});
 	
-	$.get('/candidatos/indice-obesidade?sexo=Feminino', function (chartData) {
+	$.get('/candidatos/indice-obesidade?sexo=Feminino', function (data) {
 		var ctx = document.getElementById('graficoIndiceObesidadeMulheres').getContext('2d');
-		var chart = new Chart(ctx, chartData);
+		var chart = new Chart(ctx, data);
+		var indice = data.data.datasets[0].data[0] / data.data.datasets[0].data[1];
+		indice = Math.round(indice * 1000) / 10 + '%';
+		$('#indice-mulheres-obesas').html(indice);
 	});
 	
 	$.get('/candidatos/grafico-media-idade-tipo-sanguineo', function (chartData) {
