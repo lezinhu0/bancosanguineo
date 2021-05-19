@@ -1,4 +1,50 @@
+function carregarCandidatos(file) {
+	var reader = new FileReader();
+	reader.addEventListener('load', function(event) {
+		var candidatos = JSON.parse(event.target.result);
+		$.ajax({
+			url: '/candidatos/salvar',
+			type: 'POST',
+			dataType: 'text',
+		    headers: {
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json'
+		    },
+			data: JSON.stringify(candidatos),
+			success: function(response) {
+				window.location.href = '/candidatos';
+			},
+		});
+	});
+	reader.readAsText(file);
+}
+
 $(document).ready(function() {
+	$('html').on("dragover", function(event) {
+	    event.preventDefault();  
+	    event.stopPropagation();
+	    if ($(this).hasClass('dragging')) {
+	  		return;
+  		}
+	    
+	    $(this).addClass('dragging');
+	});
+	
+	$('html').on("dragleave", function(event) {
+	    event.preventDefault();  
+	    event.stopPropagation();
+	    $(this).removeClass('dragging');
+	});
+	
+	$('html').on("drop", function(event) {
+	    event.preventDefault();  
+	    event.stopPropagation();
+	    
+	    
+	    var file = event.originalEvent.dataTransfer.files[0];
+	    carregarCandidatos(file);
+	});
+
 	$('.table-responsive').after('<div class="spinner"></div>');
 	
 	$.post('', function(dataTable) {
@@ -43,24 +89,7 @@ $(document).ready(function() {
 	    inputElement.addEventListener("change", function(e) {
 	    	var file = e.target.files[0];
 	    	
-	    	var reader = new FileReader();
-	    	reader.addEventListener('load', function(event) {
-	    		var candidatos = JSON.parse(event.target.result);
-	    		$.ajax({
-	    			url: '/candidatos/salvar',
-	    			type: 'POST',
-					dataType: 'text',
-				    headers: {
-				        'Accept': 'application/json',
-				        'Content-Type': 'application/json'
-				    },
-	    			data: JSON.stringify(candidatos),
-	    			success: function(response) {
-	    				window.location.href = '/candidatos';
-	    			},
-	    		});
-	    	});
-	    	reader.readAsText(file);
+			carregarCandidatos(file);
 	    });
 	    
 	    // dispatch a click event to open the file dialog

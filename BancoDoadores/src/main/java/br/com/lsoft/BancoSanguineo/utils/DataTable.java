@@ -42,6 +42,9 @@ public class DataTable {
 	}
 
 	public static <T> DataTable fromIterable(Iterable<T> iterable) {
+		if (!iterable.iterator().hasNext()) {
+			return null;
+		}
 		
 		LinkedList<Object> headers = new LinkedList<>();
 		T tempObj = iterable.iterator().next();

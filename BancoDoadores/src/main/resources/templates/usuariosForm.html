@@ -17,11 +17,12 @@
 			</div>
 			<div class="form-group">
 				<label>Senha</label>
-				<input type="password" th:field="*{password}" class="form-control" required="required">
+				<input type="password" id="password" th:field="*{password}" class="form-control" required="required">
 			</div>
 			<div class="form-group">
 				<label>Repetir Senha</label>
 				<input type="password" id="repeatPassword" class="form-control" required="required">
+				<span id="coincidir-senhas" class="text-danger"></span>
 			</div>
 			<button type="submit" class="btn btn-primary d-block w-100">Salvar</button>
 		</form>
