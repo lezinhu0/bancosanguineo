@@ -55,6 +55,8 @@ public class UsuariosFormController {
 	public String salvarUsuario(Usuario usuario) {
 		if (!usuarioRepository.existsById(usuario.getUsername())) {
 			usuario.setAuthorities("usuario");
+		} else {
+			usuario.setAuthorities(usuarioRepository.findById(usuario.getUsername()).orElse(null).getAuthorities());
 		}
 		usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
 		usuarioRepository.save(usuario);

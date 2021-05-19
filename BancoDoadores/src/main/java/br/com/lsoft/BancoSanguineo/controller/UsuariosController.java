@@ -44,6 +44,9 @@ public class UsuariosController {
 	public DataTable getUsuarios() {
 		Iterable<Usuario> usuarios = usuarioRepository.findAll();
 		DataTable table = DataTable.fromIterable(usuarios);
+		if (table == null) {
+			return null;
+		}
 		for (LinkedList<Object> linkedList : table.getData()) {
 			Integer index = table.getHeaders().indexOf("Username");
 			String username = (String) linkedList.get(index);
