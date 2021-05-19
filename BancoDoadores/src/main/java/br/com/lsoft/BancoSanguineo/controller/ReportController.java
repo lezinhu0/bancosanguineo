@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,7 @@ public class ReportController {
 	@GetMapping("")
 	public String report() {
 		Iterable<Candidato> candidatos = candidatoRepository.findAll();
-		
 		HashMap<String, List<BigDecimal>> map = new HashMap<>();
-		
 		for (Candidato candidato : candidatos) {
 			long idade = candidato.getIdade();
 			int idadeBase = 0;
@@ -67,11 +66,11 @@ public class ReportController {
 			mediaImcs.put(key, somaImcs.divide(BigDecimal.valueOf(imcs.size()), 2, RoundingMode.HALF_EVEN));
 		}
 		
-		List<Object> candidatosObesos = candidatoRepository.findObesosPorSexo();
+		List<Object[]> candidatosObesos = candidatoRepository.findObesosPorSexo("");
 		
-		List<Object> mediaPorTipoSanguineo = candidatoRepository.findMediaPorTipoSanguineo();
+		List<Object[]> mediaPorTipoSanguineo = candidatoRepository.findMediaPorTipoSanguineo();
 		
-		List<Object> doadoresDisponiveis = candidatoRepository.findDoadoresDisponiveis();
+//		List<Map<String, Object>> doadoresDisponiveis = candidatoRepository.findDoadoresDisponiveis();
 		
 		List<Candidato> doadoresDisponiveisPorTipoSanguineo = candidatoRepository.findDoadoresDisponiveisPorTipoSanguineo("O-");
 		

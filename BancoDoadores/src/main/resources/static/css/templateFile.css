@@ -21,3 +21,41 @@ div#label-mapa {
 #label-mapa .texto {
     text-align: center;
 }
+
+.navbar {
+	background-color: #103458!important;
+}
+
+.nav-link, .navbar-brand {
+	color: white!important;
+}
+
+.jumbotron {
+	background-color: #456582!important;
+	color: white!important;
+	border-radius: 0!important;
+}
+
+.dt-buttons {
+	float: left;
+} 
+
+.dataTables_length {
+	float: left;
+	margin-left: 2rem;
+	margin-top: 0.2rem;
+}
+
+.dataTables_paginate {
+	float: right;
+}
+
+.dataTables_filter {
+	float: right;
+	margin-right: 3rem;
+	margin-top: 0.4rem;
+}
+
+.nowrap {
+	white-space: nowrap;
+}

@@ -4,6 +4,10 @@ public class BarChart {
 
 	private final String type = "bar";
 	private BarData data;
+	
+	public BarChart(BarData data) {
+		this.data = data;
+	}
 
 	public BarData getData() {
 		return data;

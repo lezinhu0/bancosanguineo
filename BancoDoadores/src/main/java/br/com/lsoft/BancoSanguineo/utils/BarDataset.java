@@ -1,13 +1,14 @@
 package br.com.lsoft.BancoSanguineo.utils;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class BarDataset {
 
 	private String label;
-	private String backgroundColor = "rgb(155, 155, 155)";
-	private String borderColor = "rgb(155, 155, 155)";
-	private List<Double> data;
+	private String backgroundColor = "rgb(47 203 214)";
+	private String borderColor = "rgb(47 203 214)";
+	private List<Double> data = new LinkedList<>();
 	private Long borderwidth = 2l;
 
 	public String getLabel() {

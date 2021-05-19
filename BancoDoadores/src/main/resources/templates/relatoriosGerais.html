@@ -4,12 +4,11 @@
 </head>
 <body>
 	<nav th:replace="templateFile :: navbar"></nav>
-	<div class="container">
+	<div class="container-fluid">
 		<h1 class="text-center mb-5 mt-4">Relatórios Gerais</h1>
-		
 	</div>
 	<div class="jumbotron">
-		<h1>Doadores por Estado</h1>
+		<h1>Candidatos por Estado</h1>
 	</div>
 	<div class="container-fluid">
 		<div class="row">
@@ -21,10 +20,63 @@
 			</div>
 		</div>
 	</div>
-	
-	<div id="label-mapa" class="label-mapa">
+	<div class="jumbotron">
+		<h1>Média de IMC Por Idade</h1>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6">
+				<canvas id="graficoImcPorIdade" class="drilldown" height="150rem"></canvas>
+			</div>
+			<div class="col-lg-6">
+				<table id="tabelaImcPorIdade" class="table table-sm table-striped"></table>
+			</div>
+		</div>
+	</div>
+	<div id="label-mapa" class="label-mapa d-none">
 		<h4 class="titulo">SP</h4>
 		<h5 class="texto">53</h5>
+	</div>
+	<div class="jumbotron">
+		<h1>Índice de Obesidade Entre Homens e Mulheres</h1>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6 mb-5">
+				<h2 class="text-center mb-4">Homens</h2>
+				<canvas id="graficoIndiceObesidadeHomens" height="100rem"></canvas>
+			</div>
+			<div class="col-lg-6 mb-5">
+				<h2 class="text-center mb-4">Mulheres</h2>
+				<canvas id="graficoIndiceObesidadeMulheres" height="100rem"></canvas>
+			</div>
+		</div>
+	</div>
+	<div class="jumbotron">
+		<h1>Média de Idade por Tipo Sanguíneo</h1>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-6">
+				<canvas id="graficoIdadeXTipoSanguineo" class="drilldown" height="150rem"></canvas>
+			</div>
+			<div class="col-lg-6">
+				<table id="tabelaIdadeXTipoSanguineo" class="table table-sm table-striped"></table>
+			</div>
+		</div>
+	</div>
+	<div class="jumbotron">
+		<h1>Doadores por Tipo Sanguíneo</h1>
+	</div>
+	<div class="container-fluid">
+		<h2 class="text-center">Resumido</h2>
+		<div class="table-responsive">
+			<canvas id="graficoDoadoresPorTipoSanguineoResumido" height="40rem"></canvas>
+		</div>
+		<h2 class="text-center">Analítico</h2>
+		<div class="table-responsive">
+			<table id="tabelaDoadoresPorTipoSanguineoAnalitico" class="table table-sm table-striped table-hover"></table>
+		</div>
 	</div>
 </body>
 </html>

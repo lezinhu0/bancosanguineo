@@ -1,7 +1,13 @@
 package br.com.lsoft.BancoSanguineo.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +26,9 @@ import br.com.lsoft.BancoSanguineo.utils.BarChart;
 import br.com.lsoft.BancoSanguineo.utils.BarData;
 import br.com.lsoft.BancoSanguineo.utils.BarDataset;
 import br.com.lsoft.BancoSanguineo.utils.DataTable;
+import br.com.lsoft.BancoSanguineo.utils.PieChart;
+import br.com.lsoft.BancoSanguineo.utils.PieData;
+import br.com.lsoft.BancoSanguineo.utils.PieDataset;
 
 @Controller
 @RequestMapping("/candidatos")
@@ -48,7 +57,6 @@ public class CandidatosController {
 		headers.add("Data Nascimento");
 		headers.add("Email");
 		
-		
 		LinkedList<LinkedList<Object>> data = new LinkedList<>();
 		for (Candidato candidato : candidatos) {
 			LinkedList<Object> linha = new LinkedList<>();
@@ -67,14 +75,11 @@ public class CandidatosController {
 	@PostMapping("/salvar")
 	public void salvar(@RequestBody String candidatosString) {
 		System.out.println("Salvando Candidatos!!");
-
 		Candidato[] candidatos = new GsonBuilder().setDateFormat("dd/MM/yyyy").create().fromJson(candidatosString, Candidato[].class);
-
 		for (Candidato candidato : candidatos) {
 			candidato.setTipoSanguineo(tipoSanguineoRepository.findById(candidato.getTipo_sanguineo()).orElse(null));
 			candidatoRepository.save(candidato);
 		}
-
 		System.out.println("Candidatos salvos com sucesso!");
 	}
 	
@@ -85,15 +90,10 @@ public class CandidatosController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/grafico-doadores-por-estado")
-	public BarChart getGraficoDoadoresPorEstado() {
+	@GetMapping("/grafico-candidatos-por-estado")
+	public BarChart getGraficoCandidatosPorEstado() {
 		List<Object[]> listaEstados = candidatoRepository.countByEstado();
-		
-		
-		BarChart chart = new BarChart();
-		BarData data = new BarData();
 		List<String> labels = new LinkedList<>();
-		data.setLabels(labels);
 		List<BarDataset> datasets = new LinkedList<>();
 		BarDataset dataset = new BarDataset();
 		List<Double> barData = new LinkedList<>();
@@ -103,8 +103,212 @@ public class CandidatosController {
 		}
 		dataset.setData(barData);
 		datasets.add(dataset);
-		data.setDatasets(datasets);
-		chart.setData(data);
-		return chart;
+		BarData data = new BarData(labels, datasets);
+		return new BarChart(data);
+	}
+	
+	@ResponseBody
+	@GetMapping("/grafico-media-imc-idade")
+	public BarChart getGraficoMediaICMPorIdade() {
+		TreeMap<String, List<BigDecimal>> map = new TreeMap<>();
+		Iterable<Candidato> candidatos = candidatoRepository.findAll();
+		for (Candidato candidato : candidatos) {
+			long idade = candidato.getIdade();
+			int idadeBase = 0;
+			if (idade % 10 == 0) {
+				idadeBase = (int) ((idade / 10) * 10) - 10;
+			} else { 
+				idadeBase = (int) (idade / 10) * 10;
+			}
+			String key = "";
+			if (idadeBase == 0) {
+				key = idadeBase + " - " + (idadeBase + 10);
+			} else {
+				key = (idadeBase + 1) + " - " + (idadeBase + 10);
+			}
+			if (map.get(key) == null) {
+				map.put(key, new LinkedList<BigDecimal>());
+			}
+			map.get(key).add(candidato.getICM());
+		}
+		List<String> labels = new LinkedList<>();
+		List<BarDataset> datasets = new LinkedList<>();
+		BarDataset dataset = new BarDataset();
+		List<Double> barData = new LinkedList<>();
+		Iterator<Entry<String, List<BigDecimal>>> iter = map.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, List<BigDecimal>> entry = iter.next();
+			String key = entry.getKey();
+			List<BigDecimal> imcs = entry.getValue();
+			BigDecimal somaImcs = BigDecimal.ZERO;
+			for (BigDecimal imc : imcs) {
+				somaImcs = somaImcs.add(imc);
+			}
+			labels.add(key);
+			barData.add(Double.parseDouble(somaImcs.divide(BigDecimal.valueOf(imcs.size()), 2, RoundingMode.HALF_EVEN).toString()));
+		}
+		dataset.setData(barData);
+		datasets.add(dataset);
+		BarData data = new BarData(labels, datasets);
+		return new BarChart(data);
+	}
+	
+	@ResponseBody
+	@PostMapping("/tabela-media-imc-idade")
+	public DataTable getTabelaMediaIMCPorIdade() {
+		TreeMap<String, List<BigDecimal>> map = new TreeMap<>();
+		Iterable<Candidato> candidatos = candidatoRepository.findAll();
+		for (Candidato candidato : candidatos) {
+			long idade = candidato.getIdade();
+			int idadeBase = 0;
+			if (idade % 10 == 0) {
+				idadeBase = (int) ((idade / 10) * 10) - 10;
+			} else { 
+				idadeBase = (int) (idade / 10) * 10;
+			}
+			String key = "";
+			if (idadeBase == 0) {
+				key = idadeBase + " - " + (idadeBase + 10);
+			} else {
+				key = (idadeBase + 1) + " - " + (idadeBase + 10);
+			}
+			if (map.get(key) == null) {
+				map.put(key, new LinkedList<BigDecimal>());
+			}
+			map.get(key).add(candidato.getICM());
+		}
+		
+		LinkedList<Object> headers = new LinkedList<>();
+		headers.add("Faixa Etária");
+		headers.add("Média IMC");
+		
+		LinkedList<LinkedList<Object>> data = new LinkedList<>();
+		Iterator<Entry<String, List<BigDecimal>>> iter = map.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, List<BigDecimal>> entry = iter.next();
+			String key = entry.getKey();
+			List<BigDecimal> imcs = entry.getValue();
+			BigDecimal somaImcs = BigDecimal.ZERO;
+			for (BigDecimal imc : imcs) {
+				somaImcs = somaImcs.add(imc);
+			}
+			LinkedList<Object> linha = new LinkedList<>();
+			linha.add(key);
+			linha.add(Double.parseDouble(somaImcs.divide(BigDecimal.valueOf(imcs.size()), 2, RoundingMode.HALF_EVEN).toString()));
+			data.add(linha);
+		}
+		
+		return new DataTable(data, headers);
+	}
+	
+	@ResponseBody
+	@GetMapping("/indice-obesidade")
+	public PieChart getGraficoIndiceObesidade(String sexo) {
+		List<Object[]> candidatosObesos = candidatoRepository.findObesosPorSexo(sexo);
+		List<Double> data = new LinkedList<>();
+		for (Object[] object : candidatosObesos) {
+			data.add(Double.parseDouble(object[1].toString()));
+			data.add(Double.parseDouble(object[2].toString()));
+		}
+		List<PieDataset> datasets = new LinkedList<>();
+		PieDataset pieDataset = new PieDataset("Serie", data);
+		List<String> backgroundColors = new LinkedList<String>();
+		backgroundColors.add("rgb(255, 25, 75)");
+		backgroundColors.add("rgb(50, 200, 100)");
+		pieDataset.setBackgroundColor(backgroundColors);
+		datasets.add(pieDataset);
+		List<String> labels = new LinkedList<>();
+		labels.add("Obesos");
+		labels.add("Não Obesos");
+		PieData pieData = new PieData(labels, datasets);
+		return new PieChart(pieData);
+	}
+	
+	@ResponseBody
+	@GetMapping("/grafico-media-idade-tipo-sanguineo")
+	public BarChart getGraficoMediaIdadeTipoSanguineo() {
+		List<Object[]> mediaPorTipoSanguineo = candidatoRepository.findMediaPorTipoSanguineo();		
+		List<String> labels = new LinkedList<>();
+		List<BarDataset> datasets = new LinkedList<>();
+		BarDataset dataset = new BarDataset();
+		List<Double> barData = new LinkedList<>();
+		for (Object[] object : mediaPorTipoSanguineo) {
+			labels.add(object[0].toString());
+			double doubleValue = Double.parseDouble(object[1].toString());
+			barData.add(Math.round(doubleValue) * 1.0);
+		}
+		dataset.setData(barData);
+		datasets.add(dataset);
+		BarData data = new BarData(labels, datasets);
+		return new BarChart(data);
+	}
+	
+	@ResponseBody
+	@PostMapping("/tabela-media-idade-tipo-sanguineo")
+	public DataTable getTabelaMediaIdadeTipoSanguineo() {
+		List<Object[]> mediaPorTipoSanguineo = candidatoRepository.findMediaPorTipoSanguineo();
+		LinkedList<Object> headers = new LinkedList<>();
+		headers.add("Tipo Sanguineo");
+		headers.add("Média de Idade");
+		LinkedList<LinkedList<Object>> data = new LinkedList<>();
+		for (Object[] object : mediaPorTipoSanguineo) {
+			LinkedList<Object> linha = new LinkedList<>();
+			linha.add(object[0]);
+			linha.add(Math.round(Double.parseDouble(object[1].toString())));
+			data.add(linha);
+		}
+		return new DataTable(data, headers);
+	}
+	
+	@ResponseBody
+	@PostMapping("/tabela-doadores-tipo-sanguineo")
+	public DataTable tabelaDoadoresTipoSanguineo() {
+		List<Map<String, Object>> doadoresDisponiveis = candidatoRepository.findDoadoresDisponiveis();
+		LinkedList<Object> headers = new LinkedList<>();
+		LinkedList<LinkedList<Object>> data = new LinkedList<>();
+		Iterator<Entry<String, Object>> iterHeaders = doadoresDisponiveis.get(0).entrySet().iterator();
+		while (iterHeaders.hasNext()) {
+			Entry<String, Object> entry = iterHeaders.next();
+			headers.add(entry.getKey());
+		}
+		for (Map<String, Object> map : doadoresDisponiveis) {
+			LinkedList<Object> linha = new LinkedList<>();
+			for (Object header : headers) {
+				linha.add(map.get(header));
+			}
+			data.add(linha);
+		}
+		return new DataTable(data, headers);
+	}
+	
+	@ResponseBody
+	@GetMapping("/grafico-doadores-por-tipo-sanguineo")
+	public BarChart getGraficoDoadoresPorTipoSanguineo() {
+		List<Map<String, Object>> doadoresDisponiveis = candidatoRepository.findDoadoresDisponiveis();
+		
+		TreeMap<String, Double> treeMap = new TreeMap<>();
+		for (Map<String, Object> map : doadoresDisponiveis) {
+			String key = "tipo_sanguineo_receptor";
+			if (treeMap.get(map.get(key)) == null) {
+				treeMap.put(map.get(key).toString(), 1.0);
+			} else {
+				treeMap.put(map.get(key).toString(), treeMap.get(map.get(key).toString()) + 1);
+			}
+		}
+		
+		
+		List<String> labels = new LinkedList<>();
+		BarDataset dataset = new BarDataset();
+		Iterator<Entry<String, Double>> iter = treeMap.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String, Double> entry = iter.next();
+			labels.add(entry.getKey());
+			dataset.getData().add(entry.getValue());
+		}
+		
+		List<BarDataset> datasets = new LinkedList<>();
+		datasets.add(dataset);
+		BarData data = new BarData(labels, datasets);
+		return new BarChart(data);
 	}
 }

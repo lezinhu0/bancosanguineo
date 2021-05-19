@@ -4,12 +4,11 @@
 </head>
 <body>
 	<nav th:replace="templateFile :: navbar"></nav>
-	<div class="container">
-		<h1>Candidatos</h1>
-		<button id="filechoser-btn" type="submit">Carregar Arquivo</button>
-		
+	<div class="container-fluid">
+		<h1 class="text-center mb-5 mt-4">Candidatos</h1>
 	</div>
 	<div class="container-fluid">
+		<button id="filechoser-btn" class="btn btn-primary float-right mr-5 mb-3">Carregar Json</button>
 		<div class="table-responsive">
 			<table id="tabelaCandidatos" class="table table-sm table-striped"></table>
 		</div>
