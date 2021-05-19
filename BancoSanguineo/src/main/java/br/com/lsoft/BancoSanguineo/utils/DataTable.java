@@ -1,8 +1,14 @@
 package br.com.lsoft.BancoSanguineo.utils;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
+
+import br.com.lsoft.BancoSanguineo.interfaces.DataTableOrder;
 
 public class DataTable {
 
@@ -41,14 +47,34 @@ public class DataTable {
 		return headers;
 	}
 
-	public static <T> DataTable fromIterable(Iterable<T> iterable) {
+	public static <T, E> DataTable fromIterable(Iterable<T> iterable) {
 		if (!iterable.iterator().hasNext()) {
 			return null;
 		}
 		
+		Method[] methods = iterable.iterator().next().getClass().getMethods();
+		ArrayList<Method> list = new ArrayList<>(Arrays.asList(methods));
+		
+		Collections.sort(list, new Comparator<Method>() {
+			@Override
+			public int compare(Method arg0, Method arg1) {
+				if (arg0 == null && arg1 == null) {
+					return 0;
+				} else if (arg0.getAnnotation(DataTableOrder.class) == null) {
+					return 1;
+				} else if (arg1.getAnnotation(DataTableOrder.class) == null) {
+					return -1;
+				} else if (arg0.getAnnotation(DataTableOrder.class).value() < arg1.getAnnotation(DataTableOrder.class).value()) {
+					return -1;
+				} else {
+					return 1;
+				}
+			}
+		});
+		
+		
 		LinkedList<Object> headers = new LinkedList<>();
-		T tempObj = iterable.iterator().next();
-		for (Method method : tempObj.getClass().getMethods()) {
+		for (Method method : list) {
 			String methodName = method.getName();
 			if (methodName.startsWith("get") && !methodName.equals("getClass"))
 				headers.add(methodName.substring(3));

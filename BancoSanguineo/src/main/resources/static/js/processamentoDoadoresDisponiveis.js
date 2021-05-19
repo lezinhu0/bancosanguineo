@@ -6,6 +6,9 @@ $(document).ready(function() {
 			table.destroy();
 		}
 		
+		$('.tipo-sanguineo').removeClass('selected');
+		$(this).addClass('selected');
+		
 		var tipoSanguineo = $(this).find('.tipo-sanguineo-text').attr('data-value');
 		
 		$.post('', {tipoSanguineo: tipoSanguineo}, function(dataTable) {

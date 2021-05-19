@@ -26,7 +26,6 @@ public class BancoSanguineo extends SpringBootServletInitializer {
 	@Bean
 	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguneoRepository) {
 		return args -> {
-			;;
 			TipoSanguineo tipoSanguineo = new TipoSanguineo();
 			tipoSanguineo.setCodigo("A+");
 			tipoSanguineo.setDescricao("A Positivo");

@@ -75,7 +75,7 @@ $(document).ready(function() {
 			data: dataTable.data,
 			columns: headers,
 			iDisplayLength: 10,
-	    	dom: 'fpt',
+	    	dom: 't',
 	        buttons: [
 	            'copyHtml5',
 	            'excelHtml5',
@@ -88,6 +88,8 @@ $(document).ready(function() {
 		var ctx = document.getElementById('graficoIndiceObesidadeHomens').getContext('2d');
 		var chart = new Chart(ctx, data);
 		var indice = data.data.datasets[0].data[0] / data.data.datasets[0].data[1];
+		chart.options.legend.position = 'right';
+		chart.update();
 		indice = Math.round(indice * 1000) / 10 + '%';
 		$('#indice-homens-obesos').html(indice);
 	});
@@ -95,6 +97,8 @@ $(document).ready(function() {
 	$.get('/candidatos/indice-obesidade?sexo=Feminino', function (data) {
 		var ctx = document.getElementById('graficoIndiceObesidadeMulheres').getContext('2d');
 		var chart = new Chart(ctx, data);
+		chart.options.legend.position = 'right';
+		chart.update();	
 		var indice = data.data.datasets[0].data[0] / data.data.datasets[0].data[1];
 		indice = Math.round(indice * 1000) / 10 + '%';
 		$('#indice-mulheres-obesas').html(indice);
@@ -123,39 +127,11 @@ $(document).ready(function() {
 			data: dataTable.data,
 			columns: headers,
 			iDisplayLength: 10,
-	    	dom: 'fpt',
+	    	dom: 't',
 	        buttons: [
 	            'copyHtml5',
 	            'excelHtml5',
 	            'csv',
-	        ],
-		});	
-	});
-	
-	
-	$.post('/candidatos/tabela-doadores-tipo-sanguineo', function(dataTable) {
-		if (dataTable.headers == null) {
-			return;
-		}
-		
-		var headers = [];
-		
-		dataTable.headers.forEach(function(titulo) {
-			headers.push({ title: titulo, class: 'nowrap' });
-		});
-		
-		var table = $('#tabelaDoadoresPorTipoSanguineoAnalitico').DataTable({
-			data: dataTable.data,
-			columns: headers,
-			iDisplayLength: 10,
-	    	dom: 'Blfpt',
-	        buttons: [
-	            'copyHtml5',
-	            'excelHtml5',
-	            'csv',
-	        ],
-	        aaSorting: [
-	        	[2, 'desc'],
 	        ],
 		});	
 	});

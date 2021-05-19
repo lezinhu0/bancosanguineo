@@ -167,7 +167,7 @@ public class CandidatosController {
 			if (map.get(key) == null) {
 				map.put(key, new LinkedList<BigDecimal>());
 			}
-			map.get(key).add(candidato.getICM());
+			map.get(key).add(candidato.getIMC());
 		}
 		List<String> labels = new LinkedList<>();
 		List<BarDataset> datasets = new LinkedList<>();
@@ -218,7 +218,7 @@ public class CandidatosController {
 			if (map.get(key) == null) {
 				map.put(key, new LinkedList<BigDecimal>());
 			}
-			map.get(key).add(candidato.getICM());
+			map.get(key).add(candidato.getIMC());
 		}
 		
 		LinkedList<Object> headers = new LinkedList<>();
@@ -262,8 +262,8 @@ public class CandidatosController {
 		List<PieDataset> datasets = new LinkedList<>();
 		PieDataset pieDataset = new PieDataset("Serie", data);
 		List<String> backgroundColors = new LinkedList<String>();
-		backgroundColors.add("rgb(255, 25, 75)");
-		backgroundColors.add("rgb(50, 200, 100)");
+		backgroundColors.add("rgb(175, 50, 100)");
+		backgroundColors.add("rgb(50, 150, 150)");
 		pieDataset.setBackgroundColor(backgroundColors);
 		datasets.add(pieDataset);
 		List<String> labels = new LinkedList<>();
@@ -314,37 +314,6 @@ public class CandidatosController {
 			LinkedList<Object> linha = new LinkedList<>();
 			linha.add(object[0]);
 			linha.add(Math.round(Double.parseDouble(object[1].toString())));
-			data.add(linha);
-		}
-		return new DataTable(data, headers);
-	}
-	
-	/**
-	 * Gets a generic {@link DataTable} that contains all candidates that can donate blood to each other by blood type
-	 * 
-	 * @author Leandro
-	 */
-	@ResponseBody
-	@PostMapping("/tabela-doadores-tipo-sanguineo")
-	public DataTable tabelaDoadoresTipoSanguineo() {
-		List<Map<String, Object>> doadoresDisponiveis = candidatoRepository.findDoadoresDisponiveis();
-		
-		if (doadoresDisponiveis.size() == 0) {
-			return new DataTable();
-		}
-		
-		LinkedList<Object> headers = new LinkedList<>();
-		LinkedList<LinkedList<Object>> data = new LinkedList<>();
-		Iterator<Entry<String, Object>> iterHeaders = doadoresDisponiveis.get(0).entrySet().iterator();
-		while (iterHeaders.hasNext()) {
-			Entry<String, Object> entry = iterHeaders.next();
-			headers.add(entry.getKey());
-		}
-		for (Map<String, Object> map : doadoresDisponiveis) {
-			LinkedList<Object> linha = new LinkedList<>();
-			for (Object header : headers) {
-				linha.add(map.get(header));
-			}
 			data.add(linha);
 		}
 		return new DataTable(data, headers);

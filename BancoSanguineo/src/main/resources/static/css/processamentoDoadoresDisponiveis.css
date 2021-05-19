@@ -26,3 +26,11 @@
     margin-top: 2rem;
     height: 4rem;
 }
+
+.tipo-sanguineo.selected {
+    background-color: #0a3b6b;
+}
+
+html, body {
+	overflow-y: hidden;
+}

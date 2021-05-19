@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import br.com.lsoft.BancoSanguineo.interfaces.DataTableOrder;
+
 @Entity
 public class Candidato {
 
@@ -43,14 +45,17 @@ public class Candidato {
 				+ ", tipo_sanguineo=" + tipo_sanguineo + ", tipoSanguineo=" + tipoSanguineo + "]";
 	}
 
+	@DataTableOrder(value = 3)
 	public Integer getIdade() {
 		return (int) ((System.currentTimeMillis() - this.data_nasc.getTime()) / 365 / 24 / 60 / 60 / 1000);
 	}
 
-	public BigDecimal getICM() {
+	@DataTableOrder(value = 4)
+	public BigDecimal getIMC() {
 		return this.peso.divide(this.altura, 2, RoundingMode.HALF_EVEN).divide(this.altura, 2, RoundingMode.HALF_EVEN);
 	}
 
+	@DataTableOrder(value = 17)
 	public String getRg() {
 		return rg;
 	}
@@ -59,6 +64,7 @@ public class Candidato {
 		this.rg = rg;
 	}
 
+	@DataTableOrder(value = 2)
 	public String getNome() {
 		return nome;
 	}
@@ -67,6 +73,7 @@ public class Candidato {
 		this.nome = nome;
 	}
 
+	@DataTableOrder(value = 18)
 	public String getCpf() {
 		return cpf;
 	}
@@ -75,6 +82,7 @@ public class Candidato {
 		this.cpf = cpf;
 	}
 
+	@DataTableOrder(value = 19)
 	public Date getData_nasc() {
 		return data_nasc;
 	}
@@ -83,6 +91,7 @@ public class Candidato {
 		this.data_nasc = data_nasc;
 	}
 
+	@DataTableOrder(value = 5)
 	public String getSexo() {
 		return sexo;
 	}
@@ -91,6 +100,7 @@ public class Candidato {
 		this.sexo = sexo;
 	}
 
+	@DataTableOrder(value = 20)
 	public String getMae() {
 		return mae;
 	}
@@ -99,6 +109,7 @@ public class Candidato {
 		this.mae = mae;
 	}
 
+	@DataTableOrder(value = 21)
 	public String getPai() {
 		return pai;
 	}
@@ -107,6 +118,7 @@ public class Candidato {
 		this.pai = pai;
 	}
 
+	@DataTableOrder(value = 16)
 	public String getEmail() {
 		return email;
 	}
@@ -115,6 +127,7 @@ public class Candidato {
 		this.email = email;
 	}
 
+	@DataTableOrder(value = 8)
 	public String getCep() {
 		return cep;
 	}
@@ -123,6 +136,7 @@ public class Candidato {
 		this.cep = cep;
 	}
 
+	@DataTableOrder(value = 11)
 	public String getEndereco() {
 		return endereco;
 	}
@@ -131,6 +145,7 @@ public class Candidato {
 		this.endereco = endereco;
 	}
 
+	@DataTableOrder(value = 12)
 	public String getNumero() {
 		return numero;
 	}
@@ -139,14 +154,16 @@ public class Candidato {
 		this.numero = numero;
 	}
 
+	@DataTableOrder(value = 13)
 	public String getBairro() {
 		return bairro;
 	}
-
+	
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
 
+	@DataTableOrder(value = 10)
 	public String getCidade() {
 		return cidade;
 	}
@@ -155,6 +172,7 @@ public class Candidato {
 		this.cidade = cidade;
 	}
 
+	@DataTableOrder(value = 9)
 	public String getEstado() {
 		return estado;
 	}
@@ -163,6 +181,7 @@ public class Candidato {
 		this.estado = estado;
 	}
 
+	@DataTableOrder(value = 14)
 	public String getTelefone_fixo() {
 		return telefone_fixo;
 	}
@@ -171,6 +190,7 @@ public class Candidato {
 		this.telefone_fixo = telefone_fixo;
 	}
 
+	@DataTableOrder(value = 15)
 	public String getCelular() {
 		return celular;
 	}
@@ -179,6 +199,7 @@ public class Candidato {
 		this.celular = celular;
 	}
 
+	@DataTableOrder(value = 6)
 	public BigDecimal getAltura() {
 		return altura;
 	}
@@ -187,6 +208,7 @@ public class Candidato {
 		this.altura = altura;
 	}
 
+	@DataTableOrder(value = 7)
 	public BigDecimal getPeso() {
 		return peso;
 	}
@@ -195,6 +217,7 @@ public class Candidato {
 		this.peso = peso;
 	}
 
+	@DataTableOrder(value = 1)
 	public String getTipo_sanguineo() {
 		return tipo_sanguineo;
 	}
