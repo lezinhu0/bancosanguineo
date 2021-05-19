@@ -22,7 +22,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.antMatchers("/usuarios/form**").hasAuthority("admin")
 			.anyRequest().authenticated()
 		.and()
-			.formLogin().permitAll()
+			.formLogin().loginPage("/login").permitAll()
 		.and()
 			.logout().logoutSuccessUrl("/").permitAll();
 	}

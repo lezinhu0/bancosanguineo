@@ -1,0 +1,23 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head(home, home)">
+<meta charset="UTF-8">
+</head>
+<body>
+	<nav th:replace="templateFile :: navbar"></nav>
+	<div class="container-fluid">
+		<h1 class="text-center mb-5 mt-4">Login</h1>
+	</div>
+	
+	<form id="form-usuario" th:action="@{/login}" method="POST" class="form w-25 ml-auto mr-auto shadow p-4 h-50 position-relative">
+		<div class="form-group">
+			<label class="mt-5 text-center w-100 mb-3">Nome de Usuario</label>
+			<input name="username" class="form-control">
+		</div>
+		<div class="form-group">
+			<label class="text-center w-100 mb-3">Senha</label>
+			<input type="password" name="password" class="form-control">
+		</div>
+		<button type="submit" class="btn btn-primary d-block w-100 mt-auto" style="position: absolute;width: 90%!important;bottom: 3rem;">Login</button>
+	</form>
+</body>
+</html>
