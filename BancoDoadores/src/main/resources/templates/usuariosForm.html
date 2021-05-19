@@ -6,7 +6,7 @@
 	<nav th:replace="templateFile :: navbar"></nav>
 	<div class="container-fluid">
 		<h1 class="text-center mb-5 mt-4">Cadastro de Usuário</h1>
-		<form th:action="@{/usuarios/form/salvar}" method="POST" th:object="${usuario}" class="form w-25 ml-auto mr-auto shadow p-4">
+		<form id="form-usuario" th:action="@{/usuarios/form/salvar}" method="POST" th:object="${usuario}" class="form w-25 ml-auto mr-auto shadow p-4">
 			<div class="form-group">
 				<label>Nome de Usuario</label>
 				<input th:field="*{username}" class="form-control" required="required" autofocus="autofocus">

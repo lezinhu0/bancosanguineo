@@ -5,12 +5,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.lsoft.BancoSanguineo.model.Usuario;
 import br.com.lsoft.BancoSanguineo.repository.UsuarioRepository;
 
+/**
+ * MVC Controller
+ *
+ * @author Leandro
+ */
 @Controller
 @RequestMapping("/usuarios/form")
 public class UsuariosFormController {
@@ -18,12 +24,33 @@ public class UsuariosFormController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	/**
+	 * 
+	 * @author Leandro
+	 */
 	@GetMapping("")
 	public String form(Model model, Usuario usuario) {
 		model.addAttribute("usuario", usuario);
 		return "usuariosForm";
 	}
 	
+	/**
+	 * 
+	 * @author Leandro
+	 * @param model 
+	 */
+	@GetMapping("/{username}")
+	public String form(@PathVariable String username, Model model) {
+		Usuario usuario = usuarioRepository.findById(username).orElse(null);
+		model.addAttribute("usuario", usuario);
+		return "usuariosForm";
+	}
+	
+	
+	/**
+	 * 
+	 * @author Leandro
+	 */
 	@PostMapping("/salvar")
 	public String salvarUsuario(Usuario usuario) {
 		if (!usuarioRepository.existsById(usuario.getUsername())) {

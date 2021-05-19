@@ -2,6 +2,12 @@ function carregarCandidatos(file) {
 	var reader = new FileReader();
 	reader.addEventListener('load', function(event) {
 		var candidatos = JSON.parse(event.target.result);
+		
+		
+		$('.modal-body').html('<span>Carregando candidatos, aguarde um momento.</span><br><div class="spinner-border text-primary ml-auto mr-auto d-block mt-4 mb-5" role="status"><span class="visually-hidden"></span></div>');
+		$('.modal-footer').addClass('d-none');
+		$('#exampleModal *[aria-label="Close"]').addClass('d-none');
+		modal = new bootstrap.Modal(document.getElementById('modal')).show();
 		$.ajax({
 			url: '/candidatos/salvar',
 			type: 'POST',
@@ -12,6 +18,7 @@ function carregarCandidatos(file) {
 		    },
 			data: JSON.stringify(candidatos),
 			success: function(response) {
+				$('#modal').addClass('d-none');
 				window.location.href = '/candidatos';
 			},
 		});

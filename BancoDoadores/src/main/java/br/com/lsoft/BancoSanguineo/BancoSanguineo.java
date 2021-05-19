@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import br.com.lsoft.BancoSanguineo.model.TipoSanguineo;
-import br.com.lsoft.BancoSanguineo.model.Usuario;
 import br.com.lsoft.BancoSanguineo.repository.TipoSanguineoRepository;
 import br.com.lsoft.BancoSanguineo.repository.UsuarioRepository;
 
@@ -19,8 +18,14 @@ public class BancoSanguineo {
 		SpringApplication.run(BancoSanguineo.class, args);
 	}
 	
+	
+	/**
+	 * Runs on start
+	 *
+	 * @author Leandro
+	 */
 	@Bean
-	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguneoRepository, UsuarioRepository usuarioRepository) {
+	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguneoRepository) {
 		return args -> {
 			TipoSanguineo tipoSanguineo = new TipoSanguineo();
 			tipoSanguineo.setCodigo("A+");

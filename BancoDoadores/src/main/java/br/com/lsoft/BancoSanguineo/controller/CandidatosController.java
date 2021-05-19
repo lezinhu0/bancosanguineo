@@ -1,5 +1,6 @@
 package br.com.lsoft.BancoSanguineo.controller;
 
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Iterator;
@@ -30,6 +31,10 @@ import br.com.lsoft.BancoSanguineo.utils.PieChart;
 import br.com.lsoft.BancoSanguineo.utils.PieData;
 import br.com.lsoft.BancoSanguineo.utils.PieDataset;
 
+/**
+ * 
+ * @author Leandro
+ */
 @Controller
 @RequestMapping("/candidatos")
 public class CandidatosController {
@@ -40,11 +45,22 @@ public class CandidatosController {
 	@Autowired
 	private CandidatoRepository candidatoRepository;
 	
+	/**
+	 * 
+	 * @author Leandro
+	 */
 	@GetMapping("")
 	public String candidatos() {
 		return "candidatos";
 	}
 	
+	
+	/**
+	 * Gets all candidates
+	 * 
+	 * @return {@link DataTable} 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@PostMapping("")
 	public DataTable relacaoCandidatos() {
@@ -71,6 +87,12 @@ public class CandidatosController {
 		return new DataTable(data, headers);
 	}
 	
+	/**
+	 * Saves candidates
+	 * 
+	 * @param candidatosString needs to be a Json Collection of {@link Candidato}
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@PostMapping("/salvar")
 	public void salvar(@RequestBody String candidatosString) {
@@ -83,12 +105,23 @@ public class CandidatosController {
 		System.out.println("Candidatos salvos com sucesso!");
 	}
 	
+	
+	/**
+	 * Get amount of candidates in each state
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@GetMapping("/por-estado")
 	public List<Object[]> getCandidatosPorEstado() {
 		return candidatoRepository.countByEstado();
 	}
 	
+	/**
+	 * Gets a ChartJS java integration {@link BarChart} from each state 
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@GetMapping("/grafico-candidatos-por-estado")
 	public BarChart getGraficoCandidatosPorEstado() {
@@ -107,6 +140,11 @@ public class CandidatosController {
 		return new BarChart(data);
 	}
 	
+	/**
+	 * Gets a ChartJS java integration {@link BarChart} with average IMC between candidates ages 
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@GetMapping("/grafico-media-imc-idade")
 	public BarChart getGraficoMediaICMPorIdade() {
@@ -153,6 +191,11 @@ public class CandidatosController {
 		return new BarChart(data);
 	}
 	
+	/**
+	 * Gets a {@link DataTable} with average IMC between candidates ages 
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@PostMapping("/tabela-media-imc-idade")
 	public DataTable getTabelaMediaIMCPorIdade() {
@@ -201,6 +244,12 @@ public class CandidatosController {
 		return new DataTable(data, headers);
 	}
 	
+	/**
+	 * Gets a {@link PieChart} with index of obese candidates 
+	 * 
+	 * @param sexo {@link String} to filter candidates between male and female
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@GetMapping("/indice-obesidade")
 	public PieChart getGraficoIndiceObesidade(String sexo) {
@@ -224,6 +273,11 @@ public class CandidatosController {
 		return new PieChart(pieData);
 	}
 	
+	/**
+	 * Gets a {@link BarChart} with age average between candidates by blood type 
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@GetMapping("/grafico-media-idade-tipo-sanguineo")
 	public BarChart getGraficoMediaIdadeTipoSanguineo() {
@@ -243,6 +297,11 @@ public class CandidatosController {
 		return new BarChart(data);
 	}
 	
+	/**
+	 * Gets a {@link DataTable} with with age average between candidates by blood type 
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@PostMapping("/tabela-media-idade-tipo-sanguineo")
 	public DataTable getTabelaMediaIdadeTipoSanguineo() {
@@ -260,10 +319,20 @@ public class CandidatosController {
 		return new DataTable(data, headers);
 	}
 	
+	/**
+	 * Gets a generic {@link DataTable} that contains all candidates that can donate blood to each other by blood type
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@PostMapping("/tabela-doadores-tipo-sanguineo")
 	public DataTable tabelaDoadoresTipoSanguineo() {
 		List<Map<String, Object>> doadoresDisponiveis = candidatoRepository.findDoadoresDisponiveis();
+		
+		if (doadoresDisponiveis.size() == 0) {
+			return new DataTable();
+		}
+		
 		LinkedList<Object> headers = new LinkedList<>();
 		LinkedList<LinkedList<Object>> data = new LinkedList<>();
 		Iterator<Entry<String, Object>> iterHeaders = doadoresDisponiveis.get(0).entrySet().iterator();
@@ -281,6 +350,11 @@ public class CandidatosController {
 		return new DataTable(data, headers);
 	}
 	
+	/**
+	 * Gets a {@link BarChart} to represent the amount of candidates that can donate blood grouped by blood type
+	 * 
+	 * @author Leandro
+	 */
 	@ResponseBody
 	@GetMapping("/grafico-doadores-por-tipo-sanguineo")
 	public BarChart getGraficoDoadoresPorTipoSanguineo() {
