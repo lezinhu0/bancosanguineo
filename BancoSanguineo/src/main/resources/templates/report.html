@@ -1,0 +1,23 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head(reoprt, report)">
+<meta charset="UTF-8">
+</head>
+<body>
+	<h1>Report</h1>
+	<p>Quantos candidatos temos nessa lista em cada estado do Brasil?</p>
+	<p >R: </p>
+	<p>IMC médio em cada faixa de idade de dez em dez anos: 0 a 10; 11 a 20; 21 a 30, etc. (IMC = peso /
+altura^2) </p>
+	<p>R: </p>
+	<p>Qual o percentual de obesos entre os homens e entre as mulheres? (É obeso quem tem IMC >30)</p>
+	<p>R: </p>
+	<p>Qual a média de idade para cada tipo sanguíneo?</p>
+	<p>R: </p>
+	<p>A quantidade de possíveis doadores para cada tipo sanguíneo receptor.</p>
+	<p>R: </p>
+	
+	<div class="container">
+		<div th:replace="mapaBrasil :: mapa-brasil"></div>
+	</div>
+</body>
+</html>

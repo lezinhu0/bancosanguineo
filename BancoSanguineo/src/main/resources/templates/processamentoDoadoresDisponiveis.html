@@ -1,0 +1,21 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head('Doadores Disponíveis', processamentoDoadoresDisponiveis)">
+<meta charset="UTF-8">
+</head>
+<body>
+	<nav th:replace="templateFile :: navbar"></nav>
+	<div class="container-fluid">
+		<h1 class="text-center mb-5 mt-4">Processamento - Doadores Disponíveis</h1>
+	</div>
+	<div class="container-fluid">
+		<div class="menu-tipos-sanguineos mb-5">
+			<div th:each="tipoSanguineo : ${tiposSanguineos}" class="tipo-sanguineo">
+				<span th:data-value="${tipoSanguineo.codigo}" class="tipo-sanguineo-text" th:text="${tipoSanguineo.codigo}">Janeiro</span>
+			</div>
+		</div>
+		<div class="table-responsive">
+			<table id="tabelaCandidatos" class="table table-sm table-striped"></table>
+		</div>
+	</div>
+</body>
+</html>

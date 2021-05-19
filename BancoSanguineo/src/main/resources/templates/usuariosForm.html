@@ -1,0 +1,31 @@
+<html xmlns:th="www.thymeleaf.org">
+<head th:replace="templateFile :: head('Cadastro de Usuarios', usuariosForm)">
+<meta charset="UTF-8">
+</head>
+<body>
+	<nav th:replace="templateFile :: navbar"></nav>
+	<div class="container-fluid">
+		<h1 class="text-center mb-5 mt-4">Cadastro de Usuário</h1>
+		<form id="form-usuario" th:action="@{/usuarios/form/salvar}" method="POST" th:object="${usuario}" class="form w-25 ml-auto mr-auto shadow p-4">
+			<div class="form-group">
+				<label>Nome de Usuario</label>
+				<input th:field="*{username}" class="form-control" required="required" autofocus="autofocus">
+			</div>
+			<div class="form-group">
+				<label>Email</label>
+				<input th:field="*{email}" class="form-control" required="required">
+			</div>
+			<div class="form-group">
+				<label>Senha</label>
+				<input type="password" id="password" th:field="*{password}" class="form-control" required="required">
+			</div>
+			<div class="form-group">
+				<label>Repetir Senha</label>
+				<input type="password" id="repeatPassword" class="form-control" required="required">
+				<span id="coincidir-senhas" class="text-danger"></span>
+			</div>
+			<button type="submit" class="btn btn-primary d-block w-100">Salvar</button>
+		</form>
+	</div>
+</body>
+</html>

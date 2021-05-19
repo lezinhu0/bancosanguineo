@@ -1,0 +1,86 @@
+<html xmlns:th="www.thymeleaf.org" xmlns:sec>
+<head th:fragment="head(title, resources)">
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://meyerweb.com/eric/tools/css/reset/reset.css"/>
+
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+
+<!-- Datatables -->
+<link rel="stylesheet" type="text/css" th:href="@{/css/datatables.css}"/>
+<script type="text/javascript" th:src="@{/js/datatables.js}"></script>
+<script type="text/javascript" th:src="@{/js/jszip.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/pdfmake.js}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+
+<!-- Import Chart JS -->
+<script	th:src="@{/js/Chart.bundle.min.js}"></script>
+
+<title th:text="${title}"></title>
+<link rel="stylesheet" th:href="@{/css/templateFile.css}">
+<script th:src="@{/js/templateFile.js}"></script>
+
+<!-- Tokens dos Forms -->
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<script>
+	$(document).ajaxSend(function(e, xhr, options) {
+	    xhr.setRequestHeader($("meta[name='_csrf_header']").attr("content"), $("meta[name='_csrf']").attr("content"));
+	});
+</script>
+
+
+<meta charset="UTF-8">
+
+
+<link rel="stylesheet" th:href="@{/css/__${resources}__.css}">
+<script th:src="@{/js/__${resources}__.js}"></script>
+</head>
+<body>
+	<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light mb-3">
+		<a class="navbar-brand" th:href="@{/}">Banco Sanguíneo</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li sec:authorize="isAuthenticated()" class="nav-item"><a class="nav-link" th:href="@{/candidatos}">Candidatos</a></li>
+				<li sec:authorize="isAuthenticated()" class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">Processamento </a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/processamento/doadores-disponiveis}">Doadores Disponíveis</a>
+					</div>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> Relatórios </a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/relatorios-gerais}">Gerais</a>
+					</div>
+				</li>
+				<li sec:authorize="hasAuthority('admin')" class="nav-item dropdown"><a
+					class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+					role="button" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false"> Admin </a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" th:href="@{/usuarios}">Usuários</a>
+					</div>
+				</li>
+			</ul>
+			<form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post"><button type="submit" class="btn btn-danger">Logout</button></form>
+			<a sec:authorize="!isAuthenticated()" href="/login" class="btn btn-primary">Login</a>
+		</div>
+	</nav>
+</body>
+</html>
