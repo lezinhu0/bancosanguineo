@@ -58,7 +58,7 @@ public class DataTable {
 		Collections.sort(list, new Comparator<Method>() {
 			@Override
 			public int compare(Method method0, Method method1) {
-				if (method0 == null && method1 == null) {
+				if (method0.getAnnotation(DataTableOrder.class) == null && method1.getAnnotation(DataTableOrder.class) == null) {
 					return 0;
 				} else if (method0.getAnnotation(DataTableOrder.class) == null) {
 					return 1;
@@ -66,9 +66,10 @@ public class DataTable {
 					return -1;
 				} else if (method0.getAnnotation(DataTableOrder.class).value() < method1.getAnnotation(DataTableOrder.class).value()) {
 					return -1;
-				} else {
+				} else if (method0.getAnnotation(DataTableOrder.class).value() > method1.getAnnotation(DataTableOrder.class).value()) {
 					return 1;
 				}
+				return 0;
 			}
 		});
 		

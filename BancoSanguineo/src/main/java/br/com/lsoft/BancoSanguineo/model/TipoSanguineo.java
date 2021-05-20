@@ -23,6 +23,11 @@ public class TipoSanguineo {
 		this.codigo = codigo;
 	}
 
+	public TipoSanguineo(String codigo, String descricao) {
+		this.codigo = codigo;
+		this.descricao = descricao;
+	}
+
 	public String getCodigo() {
 		return codigo;
 	}

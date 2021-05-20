@@ -82,24 +82,18 @@ $(document).ready(function() {
 	});
 	
 	$('#filechoser-btn').click(function() {
-	    // Create an input element
 	    var inputElement = document.createElement("input");
-	
-	    // Set its type to file
 	    inputElement.type = "file";
-	
-	    // Set accept to the file types you want the user to select. 
-	    // Include both the file extension and the mime type
 	    inputElement.accept = '.json';
-	
-	    // set onchange event to call callback when user has selected file
+
+
 	    inputElement.addEventListener("change", function(e) {
 	    	var file = e.target.files[0];
 	    	
 			carregarCandidatos(file);
 	    });
 	    
-	    // dispatch a click event to open the file dialog
+
 	    inputElement.dispatchEvent(new MouseEvent("click")); 
 	});
 });

@@ -24,104 +24,75 @@ public class BancoSanguineo extends SpringBootServletInitializer {
 	 * @author Leandro
 	 */
 	@Bean
-	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguneoRepository) {
+	public CommandLineRunner commandLineRunner(TipoSanguineoRepository tipoSanguineoRepository) {
 		return args -> {
-			TipoSanguineo tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("A+");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("A-");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("B+");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("B-");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("AB+");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("AB-");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("O+");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
-
-			tipoSanguineo = new TipoSanguineo();
-			tipoSanguineo.setCodigo("O-");
-			tipoSanguineo.setDescricao("A Positivo");
-			tipoSanguneoRepository.save(tipoSanguineo);
+			LinkedList<TipoSanguineo> tiposSanguineos = new LinkedList<>();
+			tiposSanguineos.add(new TipoSanguineo("A+", "A POSITIVO"));
+			tiposSanguineos.add(new TipoSanguineo("A-", "A NEGATIVO"));
+			tiposSanguineos.add(new TipoSanguineo("B+", "A POSITIVO"));
+			tiposSanguineos.add(new TipoSanguineo("B-", "B NEGATIVO"));
+			tiposSanguineos.add(new TipoSanguineo("AB+", "AB POSITIVO"));
+			tiposSanguineos.add(new TipoSanguineo("AB-", "AB NEGATIVO"));
+			tiposSanguineos.add(new TipoSanguineo("O+", "O POSITIVO"));
+			tiposSanguineos.add(new TipoSanguineo("O-", "O NEGATIVO"));
+			tipoSanguineoRepository.saveAll(tiposSanguineos);
 
 			LinkedList<TipoSanguineo> doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("A+").orElse(null);
+			TipoSanguineo tipoSanguineo = tipoSanguineoRepository.findById("A+").orElse(null);
 			doaPara.add(new TipoSanguineo("AB+"));
 			doaPara.add(new TipoSanguineo("A+"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("A-").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("A-").orElse(null);
 			doaPara.add(new TipoSanguineo("A+"));
 			doaPara.add(new TipoSanguineo("A-"));
 			doaPara.add(new TipoSanguineo("AB+"));
 			doaPara.add(new TipoSanguineo("AB-"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("B+").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("B+").orElse(null);
 			doaPara.add(new TipoSanguineo("B+"));
 			doaPara.add(new TipoSanguineo("AB+"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("B-").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("B-").orElse(null);
 			doaPara.add(new TipoSanguineo("B+"));
 			doaPara.add(new TipoSanguineo("B-"));
 			doaPara.add(new TipoSanguineo("AB+"));
 			doaPara.add(new TipoSanguineo("AB-"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("AB+").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("AB+").orElse(null);
 			doaPara.add(new TipoSanguineo("AB+"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("AB-").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("AB-").orElse(null);
 			doaPara.add(new TipoSanguineo("AB+"));
 			doaPara.add(new TipoSanguineo("AB-"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("O+").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("O+").orElse(null);
 			doaPara.add(new TipoSanguineo("A+"));
 			doaPara.add(new TipoSanguineo("B+"));
 			doaPara.add(new TipoSanguineo("O+"));
 			doaPara.add(new TipoSanguineo("AB+"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 
 			doaPara = new LinkedList<>();
-			tipoSanguineo = tipoSanguneoRepository.findById("O-").orElse(null);
+			tipoSanguineo = tipoSanguineoRepository.findById("O-").orElse(null);
 			doaPara.add(new TipoSanguineo("A+"));
 			doaPara.add(new TipoSanguineo("B+"));
 			doaPara.add(new TipoSanguineo("O+"));
@@ -131,7 +102,7 @@ public class BancoSanguineo extends SpringBootServletInitializer {
 			doaPara.add(new TipoSanguineo("O-"));
 			doaPara.add(new TipoSanguineo("AB-"));
 			tipoSanguineo.setDoaPara(doaPara);
-			tipoSanguneoRepository.save(tipoSanguineo);
+			tipoSanguineoRepository.save(tipoSanguineo);
 		};
 	}
 }
