@@ -57,14 +57,14 @@ public class DataTable {
 		
 		Collections.sort(list, new Comparator<Method>() {
 			@Override
-			public int compare(Method arg0, Method arg1) {
-				if (arg0 == null && arg1 == null) {
+			public int compare(Method method0, Method method1) {
+				if (method0 == null && method1 == null) {
 					return 0;
-				} else if (arg0.getAnnotation(DataTableOrder.class) == null) {
+				} else if (method0.getAnnotation(DataTableOrder.class) == null) {
 					return 1;
-				} else if (arg1.getAnnotation(DataTableOrder.class) == null) {
+				} else if (method1.getAnnotation(DataTableOrder.class) == null) {
 					return -1;
-				} else if (arg0.getAnnotation(DataTableOrder.class).value() < arg1.getAnnotation(DataTableOrder.class).value()) {
+				} else if (method0.getAnnotation(DataTableOrder.class).value() < method1.getAnnotation(DataTableOrder.class).value()) {
 					return -1;
 				} else {
 					return 1;
